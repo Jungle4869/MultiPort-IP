@@ -1,7 +1,7 @@
 # !/bin/bash
 
 # 1. 创建 /etc/gost 目录
-sudo mkdir -p /etc/gost
+mkdir -p /etc/gost
 
 # 2. 进入 /etc/gost 目录
 cd /etc/gost
