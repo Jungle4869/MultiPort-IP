@@ -1,0 +1,16 @@
+/interface bridge add name=Docker
+/ip address add interface=Docker address=192.18.31.1/24
+/interface veth add name=singbox address=192.18.31.11/24 gateway=192.168.31.1
+/interface bridge port add interface=veth1 bridge=Docker
+/interface bridge port add interface=veth2 bridge=Docker
+/interface bridge port add interface=veth3 bridge=Docker
+/interface bridge port add interface=veth4 bridge=Docker
+/container config set registry-url=https://registry-1.docker.io tmpdir=container-temps
+#这里需要几个容器就生成几个容器
+/container add remote-image=ginuerzh/gost interface=veth1 root-dir=/docker/gost start-on-boot=yes workdir=/ logging=yes
+
+/ip firewall nat add chain=srcnat action=masquerade 
+/ip firewall mangle add dst-address=192.168.31.1 action=accept
+/routing table add fib name=out1
+/ip firewall mangle add src-address=192.168.31.11 action=mark-routing new-routing-mark=out1
+/ip route add gateway=目标IP可以是拨号等 routing-table=out1 distance=2
