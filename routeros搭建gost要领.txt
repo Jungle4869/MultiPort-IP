@@ -6,7 +6,7 @@
 /interface bridge port add interface=veth3 bridge=Docker
 /interface bridge port add interface=veth4 bridge=Docker
 /container config set registry-url=https://registry-1.docker.io tmpdir=container-temps
-#这里需要几个容器就生成几个容器
+#这里需要几个容器就生成几个容器,注意gost需要写cmd指令,写上需要监听的信息即可，具体语法可以参考gost官方
 /container add remote-image=ginuerzh/gost interface=veth1 root-dir=/docker/gost start-on-boot=yes workdir=/ logging=yes
 
 /ip firewall nat add chain=srcnat action=masquerade 
